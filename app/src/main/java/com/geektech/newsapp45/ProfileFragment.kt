@@ -32,8 +32,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initLauncher()
         binding.imageView.setOnClickListener {
-            val intent = Intent()
-            intent.action = Intent.ACTION_PICK
+            val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             launcher.launch(intent)
         }

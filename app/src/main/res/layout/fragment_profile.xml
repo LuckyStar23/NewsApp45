@@ -7,15 +7,18 @@
 
     tools:context=".ProfileFragment">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageView"
-        android:layout_width="190dp"
-        android:layout_height="130dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_gravity="center"
-        android:background="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@color/teal_200"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

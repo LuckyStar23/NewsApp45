@@ -8,31 +8,39 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.geektech.newsapp45.databinding.FragmentHomeBinding
 import com.geektech.newsapp45.databinding.FragmentNewsBinding
+import com.geektech.newsapp45.models.News
 
 
 class NewsFragment : Fragment() {
-    private lateinit var binding:FragmentNewsBinding
+    private lateinit var binding: FragmentNewsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding=FragmentNewsBinding.inflate(inflater, container,false)
+        binding = FragmentNewsBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnSave.setOnClickListener {
             save()
         }
-}
+    }
 
     private fun save() {
         val text = binding.editText.text.toString()
+        val news = News(text, System.currentTimeMillis())
         val bundle = Bundle()
-        bundle.putString("key", "text")
-        parentFragmentManager.setFragmentResult("rk_new", bundle)
+        bundle.putSerializable(NEWS, news)
+        parentFragmentManager.setFragmentResult(RK_KEY, bundle)
         findNavController().navigateUp()
+    }
+
+    companion object {
+        const val NEWS = "news"
+        const val RK_KEY = "rk_new"
     }
 }
 
