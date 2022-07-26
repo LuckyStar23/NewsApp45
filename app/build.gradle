@@ -52,6 +52,9 @@ dependencies {
     //Dots
     implementation("com.tbuonomo:dotsindicator:4.3")
 
-    //imagcircle
+    //imageCircle
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //lottie
+    implementation "com.airbnb.android:lottie:3.0.7"
 }

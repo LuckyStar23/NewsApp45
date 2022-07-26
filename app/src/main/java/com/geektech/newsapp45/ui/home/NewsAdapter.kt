@@ -1,5 +1,6 @@
 package com.geektech.newsapp45.ui.home
 
+import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,16 +8,30 @@ import android.widget.Adapter
 import androidx.recyclerview.widget.RecyclerView
 import com.geektech.newsapp45.databinding.ItemNewsBinding
 import com.geektech.newsapp45.models.News
+import java.text.SimpleDateFormat
+import java.util.*
 
-class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
+class NewsAdapter(private val onClick: (position: Int) ->Unit) : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
     private val list = arrayListOf<News>()
 
+    var onLongClick: ((position: Int) -> Unit)? = null
 
     inner class ViewHolder(private var binding: ItemNewsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(news: News) {
+            binding.timeText.text = time()
             binding.textTitle.text = news.title
+            binding.root.setOnClickListener {
+                onClick.invoke(adapterPosition)
+            }
+
+            binding.root.setOnLongClickListener {
+                onLongClick?.invoke(adapterPosition)
+                return@setOnLongClickListener true
+            }
+
+
         }
     }
 
@@ -35,9 +50,28 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
     override fun getItemCount() = list.size
     fun addItem(news: News) {
-        list.add(0,news)
+        list.add(0, news)
         notifyDataSetChanged()
     }
+
+    fun getItem(pos: Int): News {
+        return list[pos]
+
+    }
+
+    fun deleteItem(position: Int) {
+        list.removeAt(position)
+        notifyDataSetChanged()
+    }
+
+    fun removeItem(it: Int) {
+
+    }
+
+    fun time(): String {
+    return SimpleDateFormat("hh:mm,dd MMMM yyyy", Locale.getDefault()).format(Date())
+    }
+
 }
 
 

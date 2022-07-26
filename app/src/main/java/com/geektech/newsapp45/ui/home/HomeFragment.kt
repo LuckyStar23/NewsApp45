@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -27,8 +28,9 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapter = NewsAdapter()
-    }
+        adapter = NewsAdapter {
+        }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,13 +41,15 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        alertDialog()
+
+        setTime()
+
+
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.newsFragment)
         }
@@ -64,4 +68,21 @@ class HomeFragment : Fragment() {
         binding.recyclerView.adapter = adapter
     }
 
-}
+    private fun setTime() {
+
+    }
+
+    fun alertDialog() {
+    adapter.onLongClick = {
+        val dialog = context?.let { AlertDialog.Builder(it) }
+        dialog?.setTitle("Удалить объект")
+        dialog?.setMessage("Вы хотите удалить объект?")
+        dialog?.setPositiveButton("Да, удалить объект") { _, _, ->
+            val news = adapter.getItem(it)
+            Toast.makeText(requireContext(), news.createAt.toString(), Toast.LENGTH_SHORT).show()
+            adapter.deleteItem(position = it)
+            binding.recyclerView.adapter = adapter
+        }
+        dialog?.setNegativeButton("Закрыть") { dialogCancel, _ -> dialogCancel.cancel() }
+        dialog?.show()
+}}}

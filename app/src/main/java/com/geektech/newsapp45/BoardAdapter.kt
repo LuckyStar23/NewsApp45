@@ -6,23 +6,26 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.geektech.newsapp45.databinding.PagerBoardBinding
 
-class BoardAdapter : RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
+class BoardAdapter(private val onClickStart: () ->Unit) : RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
+
 
     private val titles = arrayOf("Салам", "Привет", "Hello")
     private val desc = arrayOf("Кыргызча тили", "Русский яз", "English lang")
-    private val image = arrayOf(R.drawable.ic_kg, R.drawable.ic_ru, R.drawable.ic_us)
+    private val image = arrayOf(R.raw.news, R.raw.newnews, R.raw.newnewnews)
 
     inner class ViewHolder(private var binding: PagerBoardBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
             binding.textTitle.text = titles[position]
             binding.textDesc.text = desc [position]
-            binding.imageView.setImageResource(image[position])
+            binding.lottie.setAnimation(image[position])
             if (position == 2)
                 binding.btnStart.visibility = View.VISIBLE
             else
                 binding.btnStart.visibility = View.INVISIBLE
-
+                binding.btnStart.setOnClickListener {
+                    onClickStart.invoke()
+                }
 
         }
     }
