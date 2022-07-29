@@ -20,6 +20,8 @@ import com.geektech.newsapp45.databinding.FragmentProfileBinding
 
 
 class ProfileFragment : Fragment() {
+
+
     private lateinit var binding: FragmentProfileBinding
     private lateinit var launcher: ActivityResultLauncher<Intent>
     private lateinit var msettings: SharedPreferences
@@ -31,7 +33,10 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding.root
 
+
     }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

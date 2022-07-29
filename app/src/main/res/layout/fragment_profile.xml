@@ -10,6 +10,7 @@
 
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_marginTop="64dp"
         android:id="@+id/imageViewAvatar"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -21,61 +22,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48sp"
-        android:layout_gravity="center"
-        android:text="Julia Roberts"
-        android:textSize="20dp"
-        android:textStyle="bold"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rViewFollowers"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewAvatar" />
-
-    <ImageView
-        android:id="@+id/offic"
-        android:src="@drawable/ic_baseline_done_outline_24"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/textName"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewAvatar" />
-
-    <TextView
-        android:id="@+id/textFollowing"
-        android:text="115"
-        android:layout_marginTop="44dp"
-        android:textSize="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textName" />
-
-    <TextView
-        android:id="@+id/textFollowers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:text="1050 "
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="@id/textPosts"
-        app:layout_constraintStart_toEndOf="@id/textFollowing"
-        app:layout_constraintTop_toBottomOf="@+id/textName" />
-
-    <TextView
-        android:id="@+id/textPosts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:text="21 "
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textFollowers"
-        app:layout_constraintTop_toBottomOf="@+id/textName" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 

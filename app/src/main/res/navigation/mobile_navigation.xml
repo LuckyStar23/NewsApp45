@@ -33,8 +33,9 @@
         android:name="com.geektech.newsapp45.BoardFragment"
         android:label="fragment_bord"
         tools:layout="@layout/fragment_board" />
+
     <fragment
-        android:id="@+id/profileFragment2"
+        android:id="@+id/profileFragment"
         android:name="com.geektech.newsapp45.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
