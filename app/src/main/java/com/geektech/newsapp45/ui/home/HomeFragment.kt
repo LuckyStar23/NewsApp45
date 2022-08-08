@@ -5,11 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.geektech.newsapp45.App
 import com.geektech.newsapp45.NewsFragment.Companion.NEWS
 import com.geektech.newsapp45.NewsFragment.Companion.RK_KEY
 import com.geektech.newsapp45.R
@@ -48,7 +49,7 @@ class HomeFragment : Fragment() {
         alertDialog()
 
         setTime()
-
+        search()
 
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.newsFragment)
@@ -68,6 +69,22 @@ class HomeFragment : Fragment() {
         binding.recyclerView.adapter = adapter
     }
 
+    private fun search() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val list = newText?.let { App.database.newsDao().getSearch(it) }
+                adapter.setList(list as ArrayList<News>)
+                return false
+            }
+
+        })
+    }
+
     private fun setTime() {
 
     }
@@ -83,6 +100,11 @@ class HomeFragment : Fragment() {
             adapter.deleteItem(position = it)
             binding.recyclerView.adapter = adapter
         }
+        val list = App.database.newsDao().getAll2()
+        binding.recyclerView.adapter = adapter
+
+        adapter.setList(list as ArrayList<News>)
+
         dialog?.setNegativeButton("Закрыть") { dialogCancel, _ -> dialogCancel.cancel() }
         dialog?.show()
 }}}

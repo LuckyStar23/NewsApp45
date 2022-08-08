@@ -1,19 +1,17 @@
 package com.geektech.newsapp45.ui.home
 
-import android.provider.ContactsContract
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import androidx.recyclerview.widget.RecyclerView
 import com.geektech.newsapp45.databinding.ItemNewsBinding
 import com.geektech.newsapp45.models.News
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class NewsAdapter(private val onClick: (position: Int) ->Unit) : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
-    private val list = arrayListOf<News>()
+    private var data = arrayListOf<News>()
 
     var onLongClick: ((position: Int) -> Unit)? = null
 
@@ -44,23 +42,23 @@ class NewsAdapter(private val onClick: (position: Int) ->Unit) : RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(data[position])
 
     }
 
-    override fun getItemCount() = list.size
-    fun addItem(news: News) {
-        list.add(0, news)
+    override fun getItemCount() = data.size
+
+
+
+/*    fun addItem(news: List<News>) {
+        data.add(0, )
         notifyDataSetChanged()
-    }
+    }*/
 
-    fun getItem(pos: Int): News {
-        return list[pos]
 
-    }
 
     fun deleteItem(position: Int) {
-        list.removeAt(position)
+        data.removeAt(position)
         notifyDataSetChanged()
     }
 
@@ -71,6 +69,26 @@ class NewsAdapter(private val onClick: (position: Int) ->Unit) : RecyclerView.Ad
     fun time(): String {
     return SimpleDateFormat("hh:mm,dd MMMM yyyy", Locale.getDefault()).format(Date())
     }
+
+    fun getItem(pos: Int): News {
+        return data[pos]
+    }
+
+    fun addItem(list: News) {
+        list?.let {
+            data.add(0, it)
+            notifyItemInserted(data.lastIndexOf(list))
+        }
+
+    }
+
+    fun setList(list: ArrayList<News>){
+        this.data = list
+        notifyDataSetChanged()
+    }
+
+
+
 
 }
 
