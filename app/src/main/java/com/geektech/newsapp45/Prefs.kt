@@ -1,12 +1,11 @@
 package com.geektech.newsapp45
 
 import android.content.Context
+import android.net.Uri
 
-class Prefs(context: Context)  {
+class Prefs(context: Context) {
 
-    private val preferences =
-        context.getSharedPreferences("settings", Context.MODE_PRIVATE)
-
+    private val preferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
 
     fun saveBoardState() {
         preferences.edit()
@@ -14,19 +13,16 @@ class Prefs(context: Context)  {
             .apply()
     }
 
-    fun isShown() : Boolean{
+    fun isShown(): Boolean {
         return preferences.getBoolean("isShown", false)
     }
-    fun saveImage() {
-        preferences.edit()
-            .putBoolean("isShown", true)
-            .apply()
+
+
+    fun setImage(url: String) {
+        preferences.edit().putString("avatar", url).apply()
     }
 
-
-
-
-
-
-
+    fun getImage() : String? {
+        return preferences.getString("avatar", null)
+    }
 }

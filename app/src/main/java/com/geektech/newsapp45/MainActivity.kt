@@ -65,8 +65,8 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
-         if (!Prefs(this).isShown())
-        navController.navigate(R.id.boardFragment)
+//         if (!Prefs(this).isShown())
+//        navController.navigate(R.id.boardFragment)
     }
 
 }

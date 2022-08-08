@@ -9,9 +9,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class NewsAdapter(private val onClick: (position: Int) ->Unit) : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
-
-    private var data = arrayListOf<News>()
+class NewsAdapter(private var data: ArrayList<News>) :
+    RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
     var onLongClick: ((position: Int) -> Unit)? = null
 
@@ -20,9 +19,6 @@ class NewsAdapter(private val onClick: (position: Int) ->Unit) : RecyclerView.Ad
         fun bind(news: News) {
             binding.timeText.text = time()
             binding.textTitle.text = news.title
-            binding.root.setOnClickListener {
-                onClick.invoke(adapterPosition)
-            }
 
             binding.root.setOnLongClickListener {
                 onLongClick?.invoke(adapterPosition)
@@ -48,48 +44,24 @@ class NewsAdapter(private val onClick: (position: Int) ->Unit) : RecyclerView.Ad
 
     override fun getItemCount() = data.size
 
-
-
-/*    fun addItem(news: List<News>) {
-        data.add(0, )
-        notifyDataSetChanged()
-    }*/
-
-
-
     fun deleteItem(position: Int) {
         data.removeAt(position)
         notifyDataSetChanged()
     }
 
-    fun removeItem(it: Int) {
-
-    }
-
     fun time(): String {
-    return SimpleDateFormat("hh:mm,dd MMMM yyyy", Locale.getDefault()).format(Date())
+        return SimpleDateFormat("hh:mm,dd MMMM yyyy", Locale.getDefault()).format(Date())
     }
 
     fun getItem(pos: Int): News {
         return data[pos]
     }
 
-    fun addItem(list: News) {
-        list?.let {
-            data.add(0, it)
-            notifyItemInserted(data.lastIndexOf(list))
-        }
-
-    }
-
-    fun setList(list: ArrayList<News>){
+    fun setList(list: ArrayList<News>) {
+        list.reversed()
         this.data = list
         notifyDataSetChanged()
     }
-
-
-
-
 }
 
 

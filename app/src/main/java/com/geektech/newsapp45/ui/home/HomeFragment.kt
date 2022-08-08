@@ -21,17 +21,16 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     private lateinit var adapter: NewsAdapter
+    private var list = arrayListOf<News>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapter = NewsAdapter {
-        }
-        }
+        list = (App.database.newsDao().getAll2() as ArrayList<News>)
+        adapter = NewsAdapter(list)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +45,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        list = (App.database.newsDao().getAll2() as ArrayList<News>)
+
         alertDialog()
 
         setTime()
@@ -54,18 +55,22 @@ class HomeFragment : Fragment() {
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.newsFragment)
         }
+
         parentFragmentManager.setFragmentResultListener(
             RK_KEY,
             viewLifecycleOwner
         ) { _, bundle ->
             val news = bundle.getSerializable(NEWS) as News
-            if (news.title == "Ser") Toast.makeText(requireContext(), "sada", Toast.LENGTH_LONG).show()
-            adapter.addItem(news)
+            if (news.title == "Ser") Toast.makeText(requireContext(), "sada", Toast.LENGTH_LONG)
+                .show()
+
+            adapter.setList(list)
 
             binding.recyclerView.adapter = adapter
             Log.e("Home", "text: $news")
             Log.e("Home", "text: ${news.title}")
         }
+
         binding.recyclerView.adapter = adapter
     }
 
@@ -81,7 +86,6 @@ class HomeFragment : Fragment() {
                 adapter.setList(list as ArrayList<News>)
                 return false
             }
-
         })
     }
 
@@ -89,22 +93,21 @@ class HomeFragment : Fragment() {
 
     }
 
-    fun alertDialog() {
-    adapter.onLongClick = {
-        val dialog = context?.let { AlertDialog.Builder(it) }
-        dialog?.setTitle("Удалить объект")
-        dialog?.setMessage("Вы хотите удалить объект?")
-        dialog?.setPositiveButton("Да, удалить объект") { _, _, ->
-            val news = adapter.getItem(it)
-            Toast.makeText(requireContext(), news.createAt.toString(), Toast.LENGTH_SHORT).show()
-            adapter.deleteItem(position = it)
+    private fun alertDialog() {
+        adapter.onLongClick = {
+            val dialog = context?.let { AlertDialog.Builder(it) }
+            dialog?.setTitle("Удалить объект")
+            dialog?.setMessage("Вы хотите удалить объект?")
+            dialog?.setPositiveButton("Да, удалить объект") { _, _ ->
+                val news = adapter.getItem(it)
+                Toast.makeText(requireContext(), news.createAt.toString(), Toast.LENGTH_SHORT).show()
+                adapter.deleteItem(position = it)
+                binding.recyclerView.adapter = adapter
+            }
             binding.recyclerView.adapter = adapter
+
+            dialog?.setNegativeButton("Закрыть") { dialogCancel, _ -> dialogCancel.cancel() }
+            dialog?.show()
         }
-        val list = App.database.newsDao().getAll2()
-        binding.recyclerView.adapter = adapter
-
-        adapter.setList(list as ArrayList<News>)
-
-        dialog?.setNegativeButton("Закрыть") { dialogCancel, _ -> dialogCancel.cancel() }
-        dialog?.show()
-}}}
+    }
+}
