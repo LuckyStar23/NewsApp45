@@ -24,8 +24,6 @@ class NewsAdapter(private var data: ArrayList<News>) :
                 onLongClick?.invoke(adapterPosition)
                 return@setOnLongClickListener true
             }
-
-
         }
     }
 
