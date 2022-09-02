@@ -6,6 +6,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +40,10 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         prefs = Prefs(requireContext())
+        if (prefs.getEdit() != null) {
+            binding.editTextNick.setText(prefs.getEdit().toString())  }
+
+        prefs = Prefs(requireContext())
         if (prefs.getImage() != null) {
             binding.imageViewAvatar.setImageURI(Uri.parse(prefs.getImage()))
         }
@@ -54,6 +60,20 @@ class ProfileFragment : Fragment() {
     }
 
     private fun initLauncher() {
+        binding.editTextNick.addTextChangedListener(object: TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                prefs.saveEdit(p0.toString())
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
         launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == AppCompatActivity.RESULT_OK) {
                     val image = it.data?.data

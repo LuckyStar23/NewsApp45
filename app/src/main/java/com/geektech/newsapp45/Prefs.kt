@@ -1,6 +1,7 @@
 package com.geektech.newsapp45
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.Uri
 
 class Prefs(context: Context) {
@@ -25,4 +26,11 @@ class Prefs(context: Context) {
     fun getImage() : String? {
         return preferences.getString("avatar", null)
     }
+
+    fun saveEdit(text: String) {
+        preferences.edit().putString("nickName", text).apply()
+    }
+    fun getEdit() : String? {
+        return preferences.getString("nickName", null)
+}
 }
